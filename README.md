@@ -52,10 +52,10 @@ longer can converge to the target state within the designated 10 seconds.
 Based on the figures below, the system is capable of handling much more uncertainty in the mass of the pole. The maximum allowable uncertainty factor is 160, which is much higher than the maximum allowable uncertainty in the mass of the cart. Note the system also converges to cases where the uncertainty factor is 0 (i.e. mass of the pole is zero). This is likely because the mass of pole is originally a small value of 0.01 kg so increasing it or decreasing it by a percentage minimally affects the stability of the system. This may also explain why the MPC-DDP algorithm successfully converges when the mass of the pole is set to 0. As, the difference between 0 and 0.01 kg is so minute that it does not impact the system response significantly.
 
 **Convergence time as a function of the uncertainty factor for the mass of the pole.**
-<img src="./plots/cp_mc_err.png" width="600">
+<img src="./plots/cp_mp_err.png" width="600">
 
 
-**ystem response to different uncertainties in the mass of the pole.**
+**System response to different uncertainties in the mass of the pole.**
 <img src="./plots/cp_mp_sysResp.png" width="600">
 
 ### Uncertainties in the Length of the pole
@@ -72,4 +72,17 @@ Based on the figures below, the system fails to converge for pole length error v
 **System response to a increasing pole length error value.** 
 <img src="./plots/plot_l_upper.png" width="600">
 
+### Uncertainties in Acceleration due to Gravity
+Based on the figures below, the system fails to converge for gravity error values less than 0.2 and greater than 1.65. Gravity is therefore the parameter that causes MPC to be the least robust. We theorize that this is the case because gravity affects the acceleration of the entire system and is the parameter that most directly opposes the affect of the control, since the control is a force, gravity is an acceleration, and the other parameters are lesser components of the system. When gravity decreases, the system is still able to converge, but much slower. This is because a smaller gravity slows the system down, resulting in a higher stability as a result of higher damping. When gravity is increased, the opposite effect occurs.
 
+**Convergence time as a function of the uncertainty factor for the gravitational constant..**
+<img src="./plots/plot_g_times.png" width="600">
+
+**System response to a decreasing gravity error value.**
+<img src="./plots/plot_g_lower.png" width="600">
+
+**System response to a increasing gravity error value.** 
+<img src="./plots/plot_g_upper.png" width="600">
+
+## Conclusion
+Model Predictive Control is an incredibly robust algorithm. It is able to adjust online for large discrepancies in the believed dynamics of the system with minimal reductions in performance. This makes it well suited for environments and systems where the exact dynamics are unknown or the target state changes with time, such as in a Minimax implementation. Because the number of iterations for each call to DDP does not have to be large for the overall cost to converge, MPC is a relatively computationally inexpensive algorithm as well. As long as there is enough knowledge of the dynamics for DDP to be useful, which has a large margin for error, MPC provides robust and time-efficient control optimization capabilities.
