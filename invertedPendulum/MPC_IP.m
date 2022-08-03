@@ -74,9 +74,10 @@ while ~finished
 %     attempts = attempts+1;
 end
 subplot(1,2,1)
-plot(1:length(x_traj),x_traj)
+plot(1:length(x_traj),x_traj,'LineWidth',3)
 time_elapsed = toc(timer);
 legend("theta","omega")
+xlabel
 
 subplot(1,2,2) 
 plot(1:length(Cost),Cost) ; 
