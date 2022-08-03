@@ -23,7 +23,7 @@ The following pseudo-code describes the implementation of Differential Dynamic P
 
 The following results show the performance of the MPC algorithm for the inverted pendulum case. Here, the objective was to bring the angle from an initial state of 0 degrees to a final state of 180 degrees. The system responds in a similar manner to the case where only DDP was used. Both responses experience some oscillations before reaching the target state. One notable difference that should be mentioned is that the cost with MCP-DDP takes longer to converge, while in the DDP cause the cost converges much quicker. 
 
-<img src="./plots/pendulum.png" width="600">
+<img src="./plots/pendulum.png" width="900">
 
 ### Cart-Pole Results 
 
