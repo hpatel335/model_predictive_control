@@ -29,16 +29,28 @@ The following results show the performance of the MPC algorithm for the inverted
 
 The following results shows the performance of the MPC algorithm for the cart-pole case. With a similar objective of getting the final angle to 180 degrees and all the other states to zero. The system responds much quicker here (no oscillations) primarily because the time horizon was set to 0.5 seconds and the controls were weighted heavily. If the time horizon is increased, the system begins to oscillate much more, like the response seen in just the DDP case (which had a higher time horizon). This is because the controls become "lazy" in that the DDP algorithm that is called at each time step optimizes for reaching the target state in a constant amount of time. Similarly, reducing the weight of the controls also produces more oscillations in the response, as the controls become more liberal and the system becomes less stable. The weight in the controls became the most important parameter to tune since changing time horizon and the number of iterations affected the computation time most of all, and affected the stability of the system minimally.  
 
-<img src="./plots/cartpole.png" width="900">
+<img src="./plots/cartpole.png" width="600">
 
 ## Uncertainties 
 
-### Uncertainties in Mass of the Cart 
-
 The robustness of MPC-DDP was studied with the cart-pole system. Uncertainties in the four system parameters, mass of the cart, mass of the pole, length of the pole, and the gravitational acceleration, were introduced to a "real" model (which is used to make the one step ahead propagations). These uncertainty values were multiplied by the values of the parameters that the DDP algorithm trained on to represent a discrepancy in the model of the dynamics. The resulting system response was recorded and presented here. Note for each case, the MPC-DDP algorithm was set to run to t = 10 seconds. This was chosen based on the low convergence time of the system to no uncertainties in any of the parameters (approximately 1.25 seconds) and the need to be able to simulate a large amount of simulations.
 
+### Uncertainties in Mass of the Cart 
+
+Based on the figure below, the system fails to converge to the target state within ten seconds if the uncertainty factor in the mass of the
+cart is greater than or equal to 2.5. The lower bound for the uncertainty in the mass lies between 0 and 0.1. A more detailed
+value could not be found as the DDP algorithm breaks down. Figure 4 details the variation in the system response as the
+uncertainty in the mass of the cart is increased. Initially, with low uncertainties the system experiences very little oscillations,
+and converges very quickly (within 2 seconds). As the uncertainty grows, the systems begins to increasingly oscillate until it no
+longer can converge to the target state within the designated 10 seconds.
+
+Convergence time as a function of the uncertainty factor for the mass of the cart.
 <img src="./plots/cp_mc_err.png" width="600">
 
 ### Uncertainties in Mass of the Pole 
 
-Based on Figure 5, the system is capable of handling much more uncertainty in the mass of the pole. The maximum allowable uncertainty factor is 160, which is much higher than the maximum allowable uncertainty in the mass of the cart. Note the system also converges to cases where the uncertainty factor is 0 (i.e. mass of the pole is zero). This is likely because the mass of pole is originally a small value of 0.01 kg so increasing it or decreasing it by a percentage minimally affects the stability of the system. This may also explain why the MPC-DDP algorithm successfully converges when the mass of the pole is set to 0. As, the difference between 0 and 0.01 kg is so minute that it does not impact the system response significantly. The system response to uncertainties shown in Figure 6 also shows the same trend as Figure 4.
+Based on the figures below, the system is capable of handling much more uncertainty in the mass of the pole. The maximum allowable uncertainty factor is 160, which is much higher than the maximum allowable uncertainty in the mass of the cart. Note the system also converges to cases where the uncertainty factor is 0 (i.e. mass of the pole is zero). This is likely because the mass of pole is originally a small value of 0.01 kg so increasing it or decreasing it by a percentage minimally affects the stability of the system. This may also explain why the MPC-DDP algorithm successfully converges when the mass of the pole is set to 0. As, the difference between 0 and 0.01 kg is so minute that it does not impact the system response significantly.
+
+Convergence time as a function of the uncertainty factor for the mass of the pole.
+<img src="./plots/cp_mc_err.png" width="600">
+
