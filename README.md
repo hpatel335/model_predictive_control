@@ -44,13 +44,32 @@ uncertainty in the mass of the cart is increased. Initially, with low uncertaint
 and converges very quickly (within 2 seconds). As the uncertainty grows, the systems begins to increasingly oscillate until it no
 longer can converge to the target state within the designated 10 seconds.
 
-Convergence time as a function of the uncertainty factor for the mass of the cart.
+**Convergence time as a function of the uncertainty factor for the mass of the cart.**
 <img src="./plots/cp_mc_err.png" width="600">
 
 ### Uncertainties in Mass of the Pole 
 
 Based on the figures below, the system is capable of handling much more uncertainty in the mass of the pole. The maximum allowable uncertainty factor is 160, which is much higher than the maximum allowable uncertainty in the mass of the cart. Note the system also converges to cases where the uncertainty factor is 0 (i.e. mass of the pole is zero). This is likely because the mass of pole is originally a small value of 0.01 kg so increasing it or decreasing it by a percentage minimally affects the stability of the system. This may also explain why the MPC-DDP algorithm successfully converges when the mass of the pole is set to 0. As, the difference between 0 and 0.01 kg is so minute that it does not impact the system response significantly.
 
-Convergence time as a function of the uncertainty factor for the mass of the pole.
+**Convergence time as a function of the uncertainty factor for the mass of the pole.**
 <img src="./plots/cp_mc_err.png" width="600">
+
+
+**ystem response to different uncertainties in the mass of the pole.**
+<img src="./plots/cp_mp_sysResp.png" width="600">
+
+### Uncertainties in the Length of the pole
+
+Based on the figures below, the system fails to converge for pole length error values less than 0.45 and greater than 2.5. Decreasing the length of the pole decreases the stability of the system, resulting in oscillations. This is because with a shorter length, the mass of the pole applies less torque to the system, and the control becomes more prevalent. Increasing the length of the pole does not prevent the system from converging to the final state, it just results in a larger convergence time. If increased further, it will likely exhibit similar behavior to increasing the mass of the pole, since both increase the moment the pole exerts on the cart. 
+
+**Convergence time as a function of the uncertainty factor for the length of the pole case.**
+<img src="./plots/plot_l_times.png" width="600">
+
+
+**System response to a decreasing pole length error value.**
+<img src="./plots/plot_l_lower.png" width="600">
+
+**System response to a increasing pole length error value.** 
+<img src="./plots/plot_l_upper.png" width="600">
+
 
